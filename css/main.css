@@ -1,11 +1,151 @@
 body {
     font-family: 'Roboto', sans-serif!important;
+    background-color: #f2f2f2;
+}
+
+.container {
+    min-width: 80%!important;
+    overflow: auto;
+}
+
+.body-login {
+    background-color: #212121;
 }
 
 .navbar-main {
     background-color: #555e7c!important;
+    margin-bottom: 10px;
 }
 
 .navbar-main a {
     color: #ffffff!important;
+}
+
+.login-container {
+    padding: 20px;
+    margin: auto;
+    width: 40%;
+    color: #ffffff;
+}
+
+.login-logo {
+    margin: auto;
+    width: 100%;
+    text-align: center;
+}
+
+.login-logo a {
+    color: #ffffff;
+}
+
+.login-box {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    color: #090909;
+    border-radius: 3px;
+    border: 1px solid #bdbdbd;
+}
+
+.login-box h3 {
+    color: #9cca54;
+}
+
+.login-content label {
+    font-weight:bold;
+}
+
+.login-content input {
+    padding: 5px 10px;
+    border-radius: 3px;
+    border: 1px solid #f2f2f2;
+    width: 100%;
+}
+
+.alert-msg {
+    text-align: center;
+}
+
+.alert {
+    margin-top: 10px;
+}
+
+.big-container {
+    width: 50%;
+    background-color: #ffffff;
+    border-radius: 3px;
+    border: 1px solid #bdbdbd;
+    float: left;
+}
+
+.big-container .exp-content {
+    padding: 0.75rem;
+}
+
+.t-content table {
+    margin-bottom: 0;
+}
+
+.t-content tr:first-child {
+    border-top: 0px solid #fff;
+}
+
+.t-content tr {
+    cursor: pointer;
+    border-top: 1px solid #bdbdbd;
+}
+
+.t-content td {
+    font-size: 14px;
+    border-top: 0px solid #fff;
+}
+
+.info-container {
+    width: 30%;
+    background-color: #ffffff;
+    border-radius: 3px;
+    border: 1px solid #bdbdbd;
+    padding: .75rem;
+    float:right;
+}
+
+.info-content hr {
+    border-top: 1px dotted #555e7c!important;
+}
+
+.info-content {
+    font-size: 14px;
+}
+
+.exp-content hr {
+    border-top: 1px dotted #555e7c!important;
+}
+
+.exp-content {
+    font-size: 14px;
+}
+
+.company-container {
+    width: 30%;
+    background-color: #ffffff;
+    border-radius: 3px;
+    border: 1px solid #bdbdbd;
+    padding: .75rem;
+    float: right;
+    margin-top: 35px;
+}
+
+.footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    color: #ffffff;
+    padding: 1rem;
+    background-color: #242424;
+    text-align: center;
+}
+
+hr {
+    border-top: 1px dotted #9cca54;
 }

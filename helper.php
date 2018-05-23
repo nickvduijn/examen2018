@@ -48,6 +48,22 @@ class Helper {
         return $this->error;
     }
 
+    public function save($mysqli, $type, $data) {
+        switch($type) {
+            case 'student':
+                $sql = "INSERT INTO users (email, password, class, fullname, company_id, group_id) VALUES ('".$data['email']."', '".password_hash($data['password'], PASSWORD_DEFAULT)."', '".$data['class']."', '".$data['fullname']."', NULL, 1)";
+                break;
+            case 'student_update':
+                break;
+            case 'company':
+                break;
+            case 'company_update':
+                break;
+        }
+
+        $result = mysqli_query($mysqli, $sql);
+    }
+
     /*
      * method format_data() zet data die komt uit de database om naar een gehele array.
      * $result is het resultaat waaruit het array moet ontstaan.

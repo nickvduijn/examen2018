@@ -10,6 +10,12 @@
     if(!isset($_SESSION['data'])) {
         header('location: index.php');
     }
+
+    if(isset($_POST['create'])) {
+        if($helper->save($mysqli, 'student', $_POST)) {
+
+        }
+    }
 ?>
 <!doctype html>
 <html lang="en">
@@ -53,19 +59,19 @@
                     <form method="post" action="">
                         <div class="form-group">
                             <label for="email">E-mailadres</label>
-                            <input type="email" class="form-control" id="email" placeholder="E-mailadres..." required>
+                            <input type="email" name="email" class="form-control" id="email" placeholder="E-mailadres..." required>
                         </div>
                         <div class="form-group">
                             <label for="password">Wachtwoord</label>
-                            <input type="password" class="form-control" id="password" placeholder="Wachtwoord..." required>
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Wachtwoord..." required>
                         </div>
                         <div class="form-group">
                             <label for="fullname">Volledige naam</label>
-                            <input type="text" class="form-control" id="fullname" placeholder="Volledige naam..." required>
+                            <input type="text" name="fullname" class="form-control" id="fullname" placeholder="Volledige naam..." required>
                         </div>
                         <div class="form-group">
                             <label for="class">Klas</label>
-                            <input type="text" class="form-control" id="class" placeholder="Klas..." required>
+                            <input type="text" name="class" class="form-control" id="class" placeholder="Klas..." required>
                         </div>
                         <input type="submit" class="btn btn-primary" name="create" value="Opslaan" />
                     </form>

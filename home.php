@@ -6,11 +6,11 @@
     $helper = new Helper();
     // Sessie starten
     session_start();
-
+    //Kijkt of je bent ingelogd.
     if(!isset($_SESSION['data'])) {
         header('location: index.php');
     }
-
+    //Haalt bedrijfsgegevens op door het id uit de sessie te halen.
     $company = $helper->getCompanyById($mysqli, $_SESSION['data']['company_id']);
 ?>
 <!doctype html>
@@ -65,6 +65,17 @@
                 </div>
             </div>
 
+            <?php if(!empty($_GET['msg'])) : ?>
+                <div class="container">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <?php echo $_GET['msg'];?>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            <?php endif; ?>
+
             <?php if(empty($_SESSION['data']['company_id']) && $_SESSION['data']['group_id'] < 2) : ?>
                 <div class="container">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -84,11 +95,47 @@
                 <?php endif; ?>
             <?php endif; ?>
 
+            <?php if($_SESSION['data']['group_id'] < 2 && $helper->hasExperiences($mysqli, $_SESSION['data']['id'])) : ?>
+
+            <div class="post-container">
+                <div class="t-content">
+                    <?php $posts = $helper->getPostByUserId($mysqli, $_SESSION['data']['id']); ?>
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <th>Geschreven door jou</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <?php foreach($posts as $item) : ?>
+                            <?php $item['company'] = $helper->getCompanyById($mysqli, $item['company_id']); ?>
+                            <?php $item['user'] = $helper->getUserById($mysqli, $item['created_by_id']); ?>
+                            <?php $date = new DateTime($item['created']); ?>
+                            <tr class='clickable-row' data-href='experience.php?id=<?php echo $item['id']; ?>'>
+                                <td><?php echo $item['title']; ?></td>
+                                <td><?php echo $item['company'][0]['name']; ?></td>
+                                <td><small><i><?php echo $date->format('d-m-Y H:i');?></i></small></td>
+                                <td><?php echo $item['rating']; ?><small>/10</small></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <?php endif; ?>
+
             <div class="big-container">
                 <div class="t-content">
                     <?php $experiences = $helper->getAllExperiences($mysqli); ?>
                     <table class="table table-hover">
                         <tbody>
+                        <tr>
+                            <th>Alle gedeelde ervaringen</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
                         <?php foreach($experiences as $item) : ?>
                         <?php $item['company'] = $helper->getCompanyById($mysqli, $item['company_id']); ?>
                         <?php $avarage = $helper->avarageExperienceByCompanyId($mysqli, $item['company_id']); ?>

@@ -6,18 +6,18 @@
     $helper = new Helper();
     // Sessie starten
     session_start();
-
+    //Kijkt of je bent ingelod.
     if(!isset($_SESSION['data'])) {
         header('location: index.php');
     }
-
+    //Checked of de juiste groep wel op deze pagina mag komen.
     if($_SESSION['data']['group_id'] < 2) {
         header('location: home.php');
     }
-
+    // Wanneer er op de opslaan knop is gedrukt wordt de data verwijderd uit de database (via de helper.php)
     if(isset($_POST['create'])) {
         if($helper->save($mysqli, 'student', $_POST)) {
-            header('location: create_student.php?msg=Student toegevoegd!');
+            header('location: students.php?msg=Student toegevoegd!');
         } else {
             header('location: create_student.php?error=E-mailadres is al in gebruik!');
         }

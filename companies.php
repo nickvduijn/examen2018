@@ -6,11 +6,11 @@ include 'helper.php';
 $helper = new Helper();
 // Sessie starten
 session_start();
-
+// Controlleer of iemand is ingelogd
 if(!isset($_SESSION['data'])) {
     header('location: index.php');
 }
-
+// Kijk of de juiste groep op de pagina mag komen.
 if($_SESSION['data']['group_id'] < 2) {
     header('location: home.php');
 }
@@ -72,6 +72,8 @@ if($_SESSION['data']['group_id'] < 2) {
             </div>
         </div>
     <?php endif; ?>
+
+    <!-- Loop door alle opgehaalde bedrijven heen en geeft het weer in een tabel -->
 
     <div class="big-container extra-l">
         <div class="t-content">

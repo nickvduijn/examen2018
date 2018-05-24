@@ -6,15 +6,16 @@ include 'helper.php';
 $helper = new Helper();
 // Sessie starten
 session_start();
+//Kijkt of iemand is ingelogd.
 
 if(!isset($_SESSION['data'])) {
     header('location: index.php');
 }
-
+//Checked of de juiste groep wel op deze pagina mag komen.
 if($_SESSION['data']['group_id'] > 1 || empty($_SESSION['data']['company_id'])) {
     header('location: home.php');
 }
-
+// Wanneer er op de opslaan knop is gedrukt wordt de data verwijderd uit de database (via de helper.php)
 if(isset($_POST['create'])) {
     if($helper->save($mysqli, 'experience', $_POST)) {
         header('location: home.php');
@@ -22,7 +23,7 @@ if(isset($_POST['create'])) {
         header('location: create.php?error=Er is iets misgegaan met opslaan!');
     }
 }
-
+//Haalt het bedrijf op door het idee uit de GET te halen.
 $company = $helper->getCompanyById($mysqli, $_SESSION['data']['company_id']);
 ?>
 <!doctype html>

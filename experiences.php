@@ -6,11 +6,11 @@ include 'helper.php';
 $helper = new Helper();
 // Sessie starten
 session_start();
-
+//Check of je bent ingelogd.
 if(!isset($_SESSION['data'])) {
     header('location: index.php');
 }
-
+//Haalt het bedrijf op door id te halen uit de GET
 $company = $helper->getCompanyById($mysqli, $_GET['id']);
 ?>
 <!doctype html>
@@ -59,11 +59,6 @@ $company = $helper->getCompanyById($mysqli, $_GET['id']);
 </nav>
 
 <div class="container">
-    <div class="alert alert-primary" role="alert">
-        <div class="alert-msg">
-            Welkom op het dashboard <strong><?php echo $_SESSION['data']['fullname']; ?></strong>!
-        </div>
-    </div>
 
     <?php if($_SESSION['data']['group_id'] < 2 && !empty($_SESSION['data']['company_id'])) : ?>
         <?php if(!$helper->getPostByUserId($mysqli, $_SESSION['data']['id'])) : ?>
@@ -72,8 +67,8 @@ $company = $helper->getCompanyById($mysqli, $_GET['id']);
             </div>
         <?php endif; ?>
     <?php endif; ?>
-
-    <div class="big-container">
+    <!-- Loop door alle opgehaalde geschreven ervaringen d.m.v. het bedrijfs id mee te geven aan de functie. (via helper.php) -->
+    <div class="big-container extra-l">
         <div class="t-content">
             <?php $experiences = $helper->getExperienceByCompanyId($mysqli, $_GET['id']); ?>
             <?php if(!$experiences) :?>

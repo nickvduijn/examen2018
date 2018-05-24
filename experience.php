@@ -6,11 +6,20 @@ include 'helper.php';
 $helper = new Helper();
 // Sessie starten
 session_start();
+//Kijkt of je bent ingelod.
 
 if(!isset($_SESSION['data'])) {
     header('location: index.php');
 }
-
+// Wanneer er op de delete knop is gedrukt wordt de data verwijderd uit de database (via de helper.php)
+if(isset($_POST['delete'])) {
+    if($helper->delete($mysqli, 'experience', $_GET)) {
+        header('location: home.php?msg=Geschreven ervaring is verwijderd!');
+    } else {
+        header('location: student.php?id='.$_POST['id'] .'error=Er ging iets mis!');
+    }
+}
+// Hier haal ik alle gegevens die ik wil weergeven, eerst haal de gegevens van het bericht op en op basis daarvan kan ik via de functies het id gemakkelijk meegeven.
 $post = $helper->getExperienceById($mysqli, $_GET['id']);
 $company = $helper->getCompanyById($mysqli, $post[0]['company_id']);
 $user = $helper->getUserById($mysqli, $post[0]['created_by_id']);
@@ -62,8 +71,22 @@ $date = new DateTime($post[0]['created']);
 </nav>
 
 <div class="container">
+    <?php if(!empty($_GET['msg'])) : ?>
+        <div class="container">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?php echo $_GET['msg'];?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <div class="button-container">
         <a href="experiences.php?id=<?php echo $post[0]['company_id']; ?>"><button type="button" class="btn btn-primary"><< Terug naar het overzicht</button></a>
+        <?php if($post[0]['created_by_id'] == $_SESSION['data']['id']) : ?>
+        <a href="update.php?id=<?php echo $post[0]['id']; ?>"><button type="button" class="btn btn-secondary">Bewerk ervaring</button></a>
+        <?php endif; ?>
     </div>
 
     <?php if(!$post) : ?>
@@ -77,6 +100,11 @@ $date = new DateTime($post[0]['created']);
             <p>
                 <?php echo $post[0]['body']; ?>
             </p>
+            <?php if($_SESSION['data']['group_id'] > 1) : ?>
+                <form method="post" action="">
+                    <input type="submit" class="btn btn-danger" name="delete" value="Verwijder" onclick="return deleteExperience();" />
+                </form>
+            <?php endif; ?>
         </div>
     </div>
     <div class="info-container">
@@ -94,6 +122,7 @@ $date = new DateTime($post[0]['created']);
         </div>
     </div>
     <?php endif; ?>
+
 </div>
 
 <div class="footer">Dit project is onderdeel van het examen <strong>Mediatechnologie, Applicatie en Mediaontwikkeling</strong>. Dit project is ontwikkeld door: <strong>Nick van Duijn (78408)</strong></strong></div>
@@ -102,5 +131,6 @@ $date = new DateTime($post[0]['created']);
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script src="js/main.js" type="text/javascript"></script>
 </body>
 </html>

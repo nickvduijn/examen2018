@@ -6,15 +6,15 @@ include 'helper.php';
 $helper = new Helper();
 // Sessie starten
 session_start();
-
+//Check of je bent ingelogd.
 if(!isset($_SESSION['data'])) {
     header('location: index.php');
 }
-
+//Check of je wel in de juiste groep zit.
 if($_SESSION['data']['group_id'] < 2) {
     header('location: home.php');
 }
-
+// Wanneer er op de wijzig knop wordt gedrukt zal de save() functie de data opslaan.
 if(isset($_POST['create'])) {
     if($helper->save($mysqli, 'student_update', $_POST)) {
         header('location: students.php?msg=Student succesvol aangepast!');
@@ -22,12 +22,12 @@ if(isset($_POST['create'])) {
         header('location: student.php?id='.$_POST['id'] .'error=E-mailadres is al in gebruik!');
     }
 }
-
+//Wanneer er op de verwijder knop wordt gedrukt zal het een melding sturen en vervolgens verwijderen uit de database.
 if(isset($_POST['delete'])) {
     if($helper->delete($mysqli, 'student', $_POST)) {
-        header('location: students.php?msg=Student is verwijderd!');
+        header('location: home.php?msg=De geschreven ervaring is verwijderd');
     } else {
-        header('location: student.php?id='.$_POST['id'] .'error=Er ging iets mis!');
+        header('location: experience.php?id='.$_POST['id'] .'error=Er ging iets mis!');
     }
 }
 
@@ -109,10 +109,6 @@ $user = $helper->getUserById($mysqli, $_GET['id']);
                 <div class="form-group">
                     <label for="email">E-mailadres</label>
                     <input type="email" name="email" class="form-control" id="email" value="<?php echo $user[0]['email']; ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Wachtwoord</label>
-                    <input type="password" name="password" class="form-control" id="password" value="<?php echo $user[0]['password']; ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="fullname">Volledige naam</label>

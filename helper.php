@@ -55,15 +55,16 @@ class Helper {
      * $data is de POST die wordt meegegeven met ingevulde data.
      */
     public function save($mysqli, $type, $data) {
+        // de switch case wordt gebruikt om verschillende queries te onderscheiden door het dorgegeven $type.
         switch($type) {
             case 'student':
                 $sql = "INSERT INTO users (email, password, class, fullname, company_id, group_id) VALUES ('".$data['email']."', '".password_hash($data['password'], PASSWORD_DEFAULT)."', '".$data['class']."', '".$data['fullname']."', '".$data['company_id']."', 1)";
                 break;
             case 'student_update':
-                $sql = "UPDATE users SET email='".$data['email']."', password='".$data['password']."', class='".$data['class']."', fullname='".$data['fullname']."', company_id='".$data['company_id']."' WHERE id = ".$data['id'];
+                $sql = "UPDATE users SET email='".$data['email']."', class='".$data['class']."', fullname='".$data['fullname']."', company_id='".$data['company_id']."' WHERE id = ".$data['id'];
                 break;
             case 'company':
-                $sql = "INSERT INTO companies (name, street, postal, city, contact_name, contact_email, website) VALUES ('".$data['name']."', '".$data['street']."', '".$data['postal']."', '".$data['city']."', '".$data['contact_name']."', '".$data['contact_email']."', '".$data['website']."')";
+                $sql = "INSERT INTO companies (name, street, postal, city, contact_name, contact_email, phone, website) VALUES ('".$data['name']."', '".$data['street']."', '".$data['postal']."', '".$data['city']."', '".$data['contact_name']."', '".$data['contact_email']."', '".$data['phone']."' '".$data['website']."')";
                 break;
             case 'company_update':
                 $sql = "UPDATE companies SET name='".$data['name']."', street='".$data['street']."', postal='".$data['postal']."', city='".$data['city']."', contact_name='".$data['contact_name']."' , contact_email='".$data['contact_email']."', phone='".$data['phone']."', website='".$data['website']."' WHERE id = ".$data['id'];
@@ -71,6 +72,9 @@ class Helper {
             case 'experience':
                 $sql = "INSERT INTO experiences (title, body, rating, created, company_id, created_by_id) VALUES ('".$data['title']."', '".$data['body']."', '".$data['rating']."', NOW(), '".$data['company_id']."', '".$data['created_by_id']."')";
                 break;
+            case 'experience_update':
+                $sql = "UPDATE experiences SET title='".$data['title']."', body='".$data['body']."', rating='".$data['rating']."', modified='NOW()' WHERE id = ".$data['id'];
+                break;
         }
 
         $result = mysqli_query($mysqli, $sql);
@@ -82,7 +86,14 @@ class Helper {
         }
     }
 
+    /*
+     * method delete() is een functie dat wordt gebruikt om data te verwijderen of om bij te werken.
+     * $mysqli is nodig voor verbinding met de database
+     * $type is om te onderscheiden welke query die moet gebruiken omdat het verschillende tabellen zijn.
+     * $data is de POST die wordt meegegeven met ingevulde data.
+     */
     public function delete($mysqli, $type, $data) {
+        // de switch case wordt gebruikt om verschillende queries te onderscheiden door het dorgegeven $type.
         switch($type) {
             case 'student':
                 $sql = "DELETE FROM users WHERE id = " . $data['id'];
@@ -90,6 +101,9 @@ class Helper {
             case 'company':
                 $sql = "DELETE FROM companies WHERE id = " . $data['id'];
                 break;
+            case 'experience':
+                $sql = "DELETE FROM experiences WHERE id = " . $data['id'];
+                break;
         }
 
         $result = mysqli_query($mysqli, $sql);
@@ -101,6 +115,23 @@ class Helper {
         }
     }
 
+    /*
+     * method hasExperiences controleert of een user al eens een ervaring heeft geschreven.
+     */
+    public function hasExperiences($mysqli, $userid) {
+        $sql = "SELECT id FROM experiences WHERE created_by_id = ".(int) $userid;
+        $result = mysqli_query($mysqli, $sql);
+
+        if(mysqli_num_rows($result) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*
+     * method getAllStudents() haalt alle aangemaakte studenten op.
+     */
     public function getAllStudents($mysqli) {
         $sql = "SELECT * FROM users WHERE group_id = 1";
         $result = mysqli_query($mysqli, $sql);
@@ -112,6 +143,9 @@ class Helper {
         }
     }
 
+    /*
+     * getAllCompanies() haalt alle bedrijven op die zijn aangemaakt
+     */
     public function getAllCompanies($mysqli) {
         $sql = "SELECT * FROM companies";
         $result = mysqli_query($mysqli, $sql);
@@ -123,6 +157,9 @@ class Helper {
         }
     }
 
+    /*
+     * getUserById() haalt de user op d.m.v. het doorgegeven id ($id)
+     */
     public function getUserById($mysqli, $id) {
         $sql = "SELECT * FROM users WHERE id = " . (int) $id;
         $result = mysqli_query($mysqli, $sql);
@@ -134,6 +171,9 @@ class Helper {
         }
     }
 
+    /*
+     * Haalt een bedrijf op op basis van het doorgegeven id ($id)
+     */
     public function getCompanyById($mysqli, $id) {
         $sql = "SELECT * FROM companies WHERE id = " . (int) $id;
         $result = mysqli_query($mysqli, $sql);
@@ -145,6 +185,9 @@ class Helper {
         }
     }
 
+    /*
+     * Haalt alle geschreven ervaringen op voor een gebruiker door het id ($userid)
+     */
     public function getPostByUserId($mysqli, $userid) {
         $sql = "SELECT * FROM experiences WHERE created_by_id = " . (int) $userid;
         $result = mysqli_query($mysqli, $sql);
@@ -156,7 +199,11 @@ class Helper {
         }
     }
 
+    /*
+     * getAllExperiences() haalt alle geschreven ervaringen op per bedrijf.
+     */
     public function getAllExperiences($mysqli) {
+        // gebruik group by zodat je geen dubbele resultaten krijgt op de homepagina.
         $sql = "SELECT * FROM experiences GROUP BY company_id";
         $result = mysqli_query($mysqli, $sql);
 
@@ -167,6 +214,9 @@ class Helper {
         }
     }
 
+    /*
+     * getExperienceById() haalt een geschreven ervaring op d.m.v. het id ($id)
+     */
     public function getExperienceById($mysqli, $id) {
         $sql = "SELECT * FROM experiences WHERE id = " . (int) $id;
         $result = mysqli_query($mysqli, $sql);
@@ -178,6 +228,9 @@ class Helper {
         }
     }
 
+    /*
+     * getExperienceByCompanyId() Een manier waarop je alle geschreven ervaringen van een bedrijf kan ophalen door gebruikt te maken van het bedrijfs id ($companyId)
+     */
     public function getExperienceByCompanyId($mysqli, $companyId) {
         $sql = "SELECT * FROM experiences WHERE company_id = " . (int) $companyId;
         $result = mysqli_query($mysqli, $sql);
@@ -189,6 +242,9 @@ class Helper {
         }
     }
 
+    /*
+     * avarageExperienceByCompanyId() dit wordt gebruikt op de homepagina om het gemiddelde cijfer op te halen per bedrijf.
+     */
     public function avarageExperienceByCompanyId($mysqli, $companyId) {
         $sql = "SELECT avg(rating) as avarage FROM experiences WHERE company_id = " . (int) $companyId;
         $result = mysqli_query($mysqli, $sql);

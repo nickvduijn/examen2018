@@ -6,15 +6,15 @@ include 'helper.php';
 $helper = new Helper();
 // Sessie starten
 session_start();
-
+//Kijkt of iemand is ingelogd.
 if(!isset($_SESSION['data'])) {
     header('location: index.php');
 }
-
+//Checked of de juiste groep wel op deze pagina mag komen.
 if($_SESSION['data']['group_id'] < 2) {
     header('location: home.php');
 }
-
+// Wanneer er op de wijzig knop is gedrukt wordt de data opgeslagen in de database (via de helper.php)
 if(isset($_POST['create'])) {
     if($helper->save($mysqli, 'company_update', $_POST)) {
         header('location: companies.php?msg=Bedrijf succesvol aangepast!');
@@ -22,7 +22,7 @@ if(isset($_POST['create'])) {
         header('location: company.php?id='.$_POST['id'] .'error=Naam is al bezet!');
     }
 }
-
+// Wanneer er op de wijzig knop is gedrukt wordt de data verwijderd uit de database (via de helper.php)
 if(isset($_POST['delete'])) {
     if($helper->delete($mysqli, 'company', $_POST)) {
         header('location: companies.php?msg=Student is verwijderd!');
@@ -30,7 +30,7 @@ if(isset($_POST['delete'])) {
         header('location: company.php?id='.$_POST['id'] .'error=Er ging iets mis!');
     }
 }
-
+//Haal het bedrijf op door het idee mee te geven uit de GET
 $company = $helper->getCompanyById($mysqli, $_GET['id']);
 ?>
 <!doctype html>

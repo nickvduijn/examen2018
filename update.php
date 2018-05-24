@@ -6,25 +6,29 @@ include 'helper.php';
 $helper = new Helper();
 // Sessie starten
 session_start();
-//Kijkt of je bent ingelod.
+//Checkt of je bent ingelogd.
 if(!isset($_SESSION['data'])) {
     header('location: index.php');
 }
-//Checked of de juiste groep wel op deze pagina mag komen.
-if($_SESSION['data']['group_id'] < 2) {
+// Kijkt of je in de juiste groep zit en wel een company id heb.
+if($_SESSION['data']['group_id'] > 1 || empty($_SESSION['data']['company_id'])) {
     header('location: home.php');
 }
-// Wanneer er op de opslaan knop is gedrukt wordt de data verwijderd uit de database (via de helper.php)
+//Wanneer je op wijzigen drukt zal er een save() worden gedaan waardoor de gegevens opgeslagen wordt.
 if(isset($_POST['create'])) {
-    if($helper->save($mysqli, 'company', $_POST)) {
-        header('location: companies.php?msg=Bedrijf toegevoegd!');
+    if($helper->save($mysqli, 'experience_update', $_POST)) {
+        header('location: experience.php?msg=Succesvol gewijzigd!&id='.$_POST['id']);
     } else {
-        header('location: create_company.php?error=Bedrijfsnaam bestaat al!');
+        header('location: create.php?error=Er is iets misgegaan met opslaan!');
     }
 }
+
+//Haalt de post op waar de gebruiker zich op bevind en de data voor het bedrijf.
+$post = $helper->getExperienceById($mysqli, $_GET['id']);
+$company = $helper->getCompanyById($mysqli, $_SESSION['data']['company_id']);
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -93,43 +97,36 @@ if(isset($_POST['create'])) {
 <div class="container">
     <div class="big-container">
         <div class="exp-content">
-            <h3>Voeg een Bedrijf toe</h3>
+            <h3>Ervaring bijwerken</h3>
             <hr>
             <form method="post" action="">
                 <div class="form-group">
-                    <label for="name">Naam</label>
-                    <input type="text" name="name" class="form-control" id="name" placeholder="Naam bedrijf..." required>
+                    <label for="title">Titel</label>
+                    <input type="text" name="title" class="form-control" id="title" value="<?php echo $post[0]['title']; ?>" required>
                 </div>
                 <div class="form-group">
-                    <label for="street">Straat</label>
-                    <input type="text" name="street" class="form-control" id="street" placeholder="Straat & huisnummer..." required>
+                    <label for="rating">Cijfer</label>
+                    <input type="number" name="rating" class="form-control" id="rating" value="<?php echo $post[0]['rating']; ?>" max="10" min="1" required>
                 </div>
                 <div class="form-group">
-                    <label for="postal">Postcode</label>
-                    <input type="text" name="postal" class="form-control" id="postal" placeholder="Postcode..." required>
+                    <label for="body">Beschrijving</label>
+                    <textarea class="form-control" name="body" id="body" filter="raw" rows="8" placeholder="Schrijf jouw ervaring op..." required><?php echo $post[0]['body']; ?></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="city">Plaats</label>
-                    <input type="text" name="city" class="form-control" id="city" placeholder="Plaats..." required>
-                </div>
-                <div class="form-group">
-                    <label for="contact_name">Naam praktijkbegeleider</label>
-                    <input type="text" name="contact_name" class="form-control" id="contact_name" placeholder="Naam praktijkbegeleider..." required>
-                </div>
-                <div class="form-group">
-                    <label for="contact_email">E-mail praktijkbegeleider</label>
-                    <input type="text" name="contact_email" class="form-control" id="contact_email" placeholder="E-mail praktijkbegeleider..." required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Telefoonnummer</label>
-                    <input type="text" name="phone" class="form-control" id="phone" placeholder="Telefoonnummer..." required>
-                </div>
-                <div class="form-group">
-                    <label for="website">Website <small>(Niet verplicht)</small></label>
-                    <input type="text" name="website" class="form-control" id="website" placeholder="(vb: http://website.nl)">
-                </div>
+                <input type="hidden" name="id" value="<?php echo $post[0]['id']; ?>" />
+                <input type="hidden" name="company_id" value="<?php echo $_SESSION['data']['company_id'];?>" />
+                <input type="hidden" name="created_by_id" value="<?php echo $_SESSION['data']['id'];?>" />
                 <input type="submit" class="btn btn-primary" name="create" value="Opslaan" />
             </form>
+        </div>
+    </div>
+    <div class="info-container">
+        <div class="info-content">
+            <h3>Bedrijfsgegevens</h3>
+            <hr>
+            <label>Naam: </label> <strong><?php echo $company[0]['name']; ?></strong><br/>
+            <label>Adres: </label> <strong><?php echo $company[0]['street']; ?>, <?php echo $company[0]['postal']; ?>, <?php echo $company[0]['city']; ?></strong><br/>
+            <label>Naam praktijkbegeleider: </label> <strong><?php echo $company[0]['contact_name']; ?></strong><br/>
+            <label>E-mail praktijkbegeleider: </label> <strong><?php echo $company[0]['contact_email']; ?></strong><br/>
         </div>
     </div>
 </div>

@@ -6,11 +6,11 @@ include 'helper.php';
 $helper = new Helper();
 // Sessie starten
 session_start();
-
+// check of je bent ingelogd.
 if(!isset($_SESSION['data'])) {
     header('location: index.php');
 }
-
+//Kijkt of je in de juiste groep it.
 if($_SESSION['data']['group_id'] < 2) {
     header('location: home.php');
 }

@@ -74,6 +74,14 @@ if($_SESSION['data']['group_id'] < 2) {
     <?php endif; ?>
 
     <!-- Loop door alle opgehaalde bedrijven heen en geeft het weer in een tabel -->
+    <div class="search-container">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Zoeken</span>
+            </div>
+            <input type="text" id="searchbar" class="form-control" placeholder="Zoek een bedrijf.." aria-label="Zoeken" aria-describedby="basic-addon1">
+        </div>
+    </div>
 
     <div class="big-container extra-l">
         <div class="t-content">

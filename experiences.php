@@ -68,6 +68,14 @@ $company = $helper->getCompanyById($mysqli, $_GET['id']);
         <?php endif; ?>
     <?php endif; ?>
     <!-- Loop door alle opgehaalde geschreven ervaringen d.m.v. het bedrijfs id mee te geven aan de functie. (via helper.php) -->
+    <div class="search-container">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Zoeken</span>
+            </div>
+            <input type="text" id="searchbar" class="form-control" placeholder="Zoek een ervaring.." aria-label="Zoeken" aria-describedby="basic-addon1">
+        </div>
+    </div>
     <div class="big-container extra-l">
         <div class="t-content">
             <?php $experiences = $helper->getExperienceByCompanyId($mysqli, $_GET['id']); ?>

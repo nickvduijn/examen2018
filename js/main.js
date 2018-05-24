@@ -3,6 +3,13 @@ jQuery(document).ready(function($) {
     $(".clickable-row").click(function() {
         window.location = $(this).data("href");
     });
+    // filter voor de zoek balk
+    $("#searchbar").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $(".table .clickable-row").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
 });
 
 //Delete berichten

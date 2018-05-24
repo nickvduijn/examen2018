@@ -21,6 +21,11 @@ body {
     color: #ffffff!important;
 }
 
+.navbar-main a:hover {
+    color: #f2f2f2!important;
+    text-decoration: underline;
+}
+
 .login-container {
     padding: 20px;
     margin: auto;
@@ -97,6 +102,10 @@ body {
 .t-content table {
     margin-bottom: 0;
 }
+.t-content th {
+    font-size: 14px;
+    border-top: 0px solid #fff;
+}
 
 .t-content tr:first-child {
     border-top: 0px solid #fff;
@@ -150,6 +159,10 @@ body {
     padding: .75rem;
     float: right;
     margin-top: 35px;
+}
+
+.search-container {
+    width: 25%;
 }
 
 .footer {

@@ -146,7 +146,7 @@
                         <?php foreach($experiences as $item) : ?>
                         <?php $item['company'] = $helper->getCompanyById($mysqli, $item['company_id']); ?>
                         <?php $avarage = $helper->avarageExperienceByCompanyId($mysqli, $item['company_id']); ?>
-                            <tr class='clickable-row' data-href='experiences.php?id=<?php echo $item['company_id']; ?>'>
+                            <tr class='clickable-row sfilter' data-href='experiences.php?id=<?php echo $item['company_id']; ?>'>
                                 <td><strong><?php echo $item['company'][0]['name']; ?></strong></td>
                                 <td>Aantal geschreven ervaringen: <i><?php echo count($helper->getExperienceByCompanyId($mysqli, $item['company_id'])); ?></i></td>
                                 <td>Gemiddeld cijfer: <strong><?php echo (int)$avarage[0]['avarage']; ?></strong><small>/10</small></td>

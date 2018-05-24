@@ -6,7 +6,7 @@ jQuery(document).ready(function($) {
     // filter voor de zoek balk
     $("#searchbar").on("keyup", function() {
         var value = $(this).val().toLowerCase();
-        $(".table .clickable-row").filter(function() {
+        $(".table .sfilter").filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });

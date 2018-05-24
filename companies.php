@@ -96,7 +96,7 @@ if($_SESSION['data']['group_id'] < 2) {
                 </tr>
                 <?php $companies = $helper->getAllCompanies($mysqli); ?>
                 <?php foreach($companies as $company) : ?>
-                    <tr class="clickable-row" data-href="company.php?id=<?php echo $company['id']; ?>">
+                    <tr class="clickable-row sfilter" data-href="company.php?id=<?php echo $company['id']; ?>">
                         <td><?php echo $company['name']; ?></td>
                         <td><?php echo $company['contact_name']; ?></td>
                         <td><?php echo $company['contact_email']; ?></td>

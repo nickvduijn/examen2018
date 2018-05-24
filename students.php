@@ -95,7 +95,7 @@ if($_SESSION['data']['group_id'] < 2) {
                 <?php $users = $helper->getAllStudents($mysqli); ?>
                 <?php foreach($users as $user) : ?>
                 <?php $company = $helper->getCompanyById($mysqli, $user['company_id']); ?>
-                <tr class="clickable-row" data-href="student.php?id=<?php echo $user['id']; ?>">
+                <tr class="clickable-row sfilter" data-href="student.php?id=<?php echo $user['id']; ?>">
                     <td><?php echo $user['fullname']; ?></td>
                     <td><?php echo $user['email']; ?></td>
                     <td><?php echo $user['class']; ?></td>

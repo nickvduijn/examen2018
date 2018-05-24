@@ -87,7 +87,7 @@ $company = $helper->getCompanyById($mysqli, $_GET['id']);
                 <?php foreach($experiences as $item) : ?>
                 <?php $date = new DateTime($item['created']); ?>
                 <?php $user = $helper->getUserById($mysqli, $item['created_by_id']); ?>
-                    <tr class='clickable-row' data-href='experience.php?id=<?php echo $item['id']; ?>'>
+                    <tr class='clickable-row sfilter' data-href='experience.php?id=<?php echo $item['id']; ?>'>
                         <td><strong><?php echo $item['title']; ?></strong></td>
                         <td>Gepubliceerd op: <i><?php echo $date->format('d-m-Y H:i'); ?></i></td>
                         <td>Geschreven door: <i><?php echo $user[0]['fullname']; ?></i></td>

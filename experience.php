@@ -108,6 +108,7 @@ $date = new DateTime($post[0]['created']);
         </div>
     </div>
     <div class="info-container">
+        <?php $date = new DateTimer($post[0]['modified']); ?>
         <div class="info-content">
             <h3>Informatie</h3>
             <hr>

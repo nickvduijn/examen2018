@@ -25,9 +25,9 @@ if(isset($_POST['create'])) {
 //Wanneer er op de verwijder knop wordt gedrukt zal het een melding sturen en vervolgens verwijderen uit de database.
 if(isset($_POST['delete'])) {
     if($helper->delete($mysqli, 'student', $_POST)) {
-        header('location: home.php?msg=De geschreven ervaring is verwijderd');
+        header('location: students.php?msg=De geschreven ervaring is verwijderd');
     } else {
-        header('location: experience.php?id='.$_POST['id'] .'error=Er ging iets mis!');
+        header('location: student.php?id='.$_POST['id'] .'error=Er ging iets mis!');
     }
 }
 

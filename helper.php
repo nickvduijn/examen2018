@@ -73,7 +73,7 @@ class Helper {
                 $sql = "INSERT INTO experiences (title, body, rating, created, company_id, created_by_id) VALUES ('".$data['title']."', '".$data['body']."', '".$data['rating']."', NOW(), '".$data['company_id']."', '".$data['created_by_id']."')";
                 break;
             case 'experience_update':
-                $sql = "UPDATE experiences SET title='".$data['title']."', body='".$data['body']."', rating='".$data['rating']."', modified='NOW()' WHERE id = ".$data['id'];
+                $sql = "UPDATE experiences SET title='".$data['title']."', body='".$data['body']."', rating='".$data['rating']."', modified=NOW() WHERE id = ".$data['id'];
                 break;
         }
 

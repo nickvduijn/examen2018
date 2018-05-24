@@ -78,6 +78,10 @@ body {
     float: left;
 }
 
+.extra-l {
+    width: 65%!important;
+}
+
 .big-container .exp-content {
     padding: 0.75rem;
 }
@@ -115,6 +119,11 @@ body {
 
 .info-content {
     font-size: 14px;
+}
+
+.button-container {
+    font-size: 14px;
+    margin-bottom: 10px;
 }
 
 .exp-content hr {

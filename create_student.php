@@ -11,9 +11,15 @@
         header('location: index.php');
     }
 
+    if($_SESSION['data']['group_id'] < 2) {
+        header('location: home.php');
+    }
+
     if(isset($_POST['create'])) {
         if($helper->save($mysqli, 'student', $_POST)) {
-
+            header('location: create_student.php?msg=Student toegevoegd!');
+        } else {
+            header('location: create_student.php?error=E-mailadres is al in gebruik!');
         }
     }
 ?>
@@ -39,9 +45,20 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                         <ul class="navbar-nav ml-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="create_student.php">Voeg leerling toe</a>
-                            </li>
+                            <?php if($_SESSION['data']['group_id'] > 1) : ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="companies.php">Bedrijven overzicht</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="students.php">Studenten overzicht</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="create_company.php">Voeg bedrijf toe</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="create_student.php">Voeg leerling toe</a>
+                                </li>
+                            <?php endif; ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="logout.php">Uitloggen</a>
                             </li>
@@ -50,6 +67,28 @@
                 </div>
             </div>
         </nav>
+
+        <?php if(!empty($_GET['msg'])) : ?>
+            <div class="container">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?php echo $_GET['msg'];?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <?php if(!empty($_GET['error'])) : ?>
+            <div class="container">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?php echo $_GET['error'];?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        <?php endif; ?>
 
         <div class="container">
             <div class="big-container">
@@ -72,6 +111,20 @@
                         <div class="form-group">
                             <label for="class">Klas</label>
                             <input type="text" name="class" class="form-control" id="class" placeholder="Klas..." required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Bedrijf</label>
+                            </div>
+                            <select name="company_id" class="custom-select" id="company_id">
+                                <option value=''>Selecteer een bedrijf..</option>
+                                <?php
+                                $result=mysqli_query($mysqli,'SELECT id,name FROM companies');
+                                while($row=mysqli_fetch_assoc($result)) {
+                                    echo "<option value='".$row['id']."'>".$row['name']."</option>";
+                                }
+                                ?>
+                            </select>
                         </div>
                         <input type="submit" class="btn btn-primary" name="create" value="Opslaan" />
                     </form>

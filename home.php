@@ -9,9 +9,9 @@
 
     if(!isset($_SESSION['data'])) {
         header('location: index.php');
-    } else if(!$_SESSION['data']['group_id'] > 1) {
-        header('location: home.php');
     }
+
+    $company = $helper->getCompanyById($mysqli, $_SESSION['data']['company_id']);
 ?>
 <!doctype html>
 <html lang="en">
@@ -35,9 +35,20 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                         <ul class="navbar-nav ml-auto">
+                            <?php if($_SESSION['data']['group_id'] > 1) : ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="companies.php">Bedrijven overzicht</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="students.php">Studenten overzicht</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="create_company.php">Voeg bedrijf toe</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="create_student.php">Voeg leerling toe</a>
                             </li>
+                            <?php endif; ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="logout.php">Uitloggen</a>
                             </li>
@@ -54,25 +65,39 @@
                 </div>
             </div>
 
+            <?php if(empty($_SESSION['data']['company_id']) && $_SESSION['data']['group_id'] < 2) : ?>
+                <div class="container">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        Je bent nog niet gekoppeld aan een bedrijf!
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if($_SESSION['data']['group_id'] < 2 && !empty($_SESSION['data']['company_id'])) : ?>
+                <?php if(!$helper->getPostByUserId($mysqli, $_SESSION['data']['id'])) : ?>
+                <div class="button-container">
+                    <a href="create.php"><button type="button" class="btn btn-success">Schrijf een ervaring!</button></a>
+                </div>
+                <?php endif; ?>
+            <?php endif; ?>
+
             <div class="big-container">
                 <div class="t-content">
+                    <?php $experiences = $helper->getAllExperiences($mysqli); ?>
                     <table class="table table-hover">
                         <tbody>
-                            <tr class='clickable-row' data-href='#'>
-                                <td>Dit is een titel van een ervaring</td>
-                                <td>Geschreven door: <strong>Leerling Leerling</strong></td>
-                                <td><small>Gepubliceerd op: <i>23-05-2018 15:43</i></small></td>
+                        <?php foreach($experiences as $item) : ?>
+                        <?php $item['company'] = $helper->getCompanyById($mysqli, $item['company_id']); ?>
+                        <?php $avarage = $helper->avarageExperienceByCompanyId($mysqli, $item['company_id']); ?>
+                            <tr class='clickable-row' data-href='experiences.php?id=<?php echo $item['company_id']; ?>'>
+                                <td><strong><?php echo $item['company'][0]['name']; ?></strong></td>
+                                <td>Aantal geschreven ervaringen: <i><?php echo count($helper->getExperienceByCompanyId($mysqli, $item['company_id'])); ?></i></td>
+                                <td>Gemiddeld cijfer: <strong><?php echo (int)$avarage[0]['avarage']; ?></strong><small>/10</small></td>
                             </tr>
-                            <tr class='clickable-row' data-href='#'>
-                                <td>Dit is een titel van een ervaring</td>
-                                <td>Geschreven door: <strong>Leerling Leerling</strong></td>
-                                <td><small>Gepubliceerd op: <i>23-05-2018 15:43</i></small></td>
-                            </tr>
-                            <tr class='clickable-row' data-href='#'>
-                                <td>Dit is een titel van een ervaring</td>
-                                <td>Geschreven door: <strong>Leerling Leerling</strong></td>
-                                <td><small>Gepubliceerd op: <i>23-05-2018 15:43</i></small></td>
-                            </tr>
+                        <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -88,19 +113,24 @@
                 </div>
             </div>
         </div>
-
-        <div class="container">
-            <div class="company-container">
-                <div class="info-content">
-                    <h3>Bedrijfsgegevens</h3>
-                    <hr>
-                    <label>Naam: </label> <strong><?php echo $_SESSION['data']['fullname']; ?></strong><br/>
-                    <label>E-mailadres: </label> <strong><?php echo $_SESSION['data']['email']; ?></strong><br/>
-                    <label>Praktijkbegeleider: </label> <strong><?php echo $_SESSION['data']['class']; ?></strong><br/>
-                    <label>Adres: </label> <strong>Rontgenlaan 25, 2724 ED, Zoetermeer</strong><br/>
+        <?php if($_SESSION['data']['group_id'] < 2) : ?>
+            <?php if(!empty($_SESSION['data']['company_id'])) : ?>
+            <div class="container">
+                <div class="company-container">
+                    <div class="info-content">
+                        <h3>Bedrijfsgegevens</h3>
+                        <hr>
+                        <label>Naam: </label> <strong><?php echo $company[0]['name']; ?></strong><br/>
+                        <label>Adres: </label> <strong><?php echo $company[0]['street']; ?>, <?php echo $company[0]['postal']; ?>, <?php echo $company[0]['city']; ?></strong><br/>
+                        <label>Naam praktijkbegeleider: </label> <strong><?php echo $company[0]['contact_name']; ?></strong><br/>
+                        <label>E-mail praktijkbegeleider: </label> <strong><?php echo $company[0]['contact_email']; ?></strong><br/>
+                        <label>Telefoonnummer: </label> <strong><?php echo $company[0]['phone']; ?></strong><br/>
+                        <?php if(!empty($company[0]['website'])) : ?><label>Website: </label> <strong><a href="<?php echo $company[0]['website']; ?>" target="_blank"><?php echo $company[0]['website']; ?></a></strong><br/><?php endif;?>
+                    </div>
                 </div>
             </div>
-        </div>
+            <?php endif; ?>
+        <?php endif; ?>
 
         <div class="footer">Dit project is onderdeel van het examen <strong>Mediatechnologie, Applicatie en Mediaontwikkeling</strong>. Dit project is ontwikkeld door: <strong>Nick van Duijn (78408)</strong></strong></div>
 
@@ -108,5 +138,6 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+        <script src="js/main.js" type="text/javascript"></script>
     </body>
 </html>

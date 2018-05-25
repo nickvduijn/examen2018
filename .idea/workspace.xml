@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dd8071c7-9a9e-479a-b630-a1b580f10287" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documenten/Opdracht_2b.docx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documenten/Opdracht_2c.docx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documenten/Opdracht_3a.docx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documenten/Planning.xlsx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documenten/Profieldeel.docx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documenten/opdracht_3b.docx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documenten/~$Planning.xlsx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documenten/~$dracht_3b.docx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/experience.php" afterPath="$PROJECT_DIR$/experience.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/helper.php" afterPath="$PROJECT_DIR$/helper.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/student.php" afterPath="$PROJECT_DIR$/student.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -52,8 +57,8 @@
       <file leaf-file-name="home.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/home.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="49" lean-forward="true" selection-start-line="20" selection-start-column="49" selection-end-line="20" selection-end-column="49" />
+            <state relative-caret-position="495">
+              <caret line="33" column="25" lean-forward="true" selection-start-line="33" selection-start-column="25" selection-end-line="33" selection-end-column="25" />
               <folding>
                 <marker date="1527231934000" expanded="true" signature="2800:2997" ph="..." />
               </folding>
@@ -374,7 +379,7 @@
       <workItem from="1527068750031" duration="9657000" />
       <workItem from="1527080254160" duration="6880000" />
       <workItem from="1527143117099" duration="27959000" />
-      <workItem from="1527228892276" duration="2847000" />
+      <workItem from="1527228892276" duration="2929000" />
     </task>
     <task id="LOCAL-00001" summary="Test">
       <created>1527071487696</created>
@@ -432,11 +437,18 @@
       <option name="project" value="LOCAL" />
       <updated>1527174443258</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="update 25-05-2018 09:32">
+      <created>1527233553385</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1527233553385</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47343000" />
+    <option name="totallyTimeSpent" value="47425000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -487,7 +499,8 @@
     <MESSAGE value="update 24-05-2018 16:33" />
     <MESSAGE value="update 24-05-2018 16:50" />
     <MESSAGE value="update 24-05-2018 17:07" />
-    <option name="LAST_COMMIT_MESSAGE" value="update 24-05-2018 17:07" />
+    <MESSAGE value="update 25-05-2018 09:32" />
+    <option name="LAST_COMMIT_MESSAGE" value="update 25-05-2018 09:32" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -935,8 +948,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/home.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="49" lean-forward="true" selection-start-line="20" selection-start-column="49" selection-end-line="20" selection-end-column="49" />
+        <state relative-caret-position="495">
+          <caret line="33" column="25" lean-forward="true" selection-start-line="33" selection-start-column="25" selection-end-line="33" selection-end-column="25" />
           <folding>
             <marker date="1527231934000" expanded="true" signature="2800:2997" ph="..." />
           </folding>

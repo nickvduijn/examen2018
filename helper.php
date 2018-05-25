@@ -20,6 +20,7 @@ class Helper {
         echo '</pre>';
         die;
     }
+
     /*
      * method login() zorgt ervoor dat er wordt gechecked of de juiste login gegevens zijn toegevoegd.
      * $mysqli is nodig voor de verbinding met de database.
@@ -64,7 +65,7 @@ class Helper {
                 $sql = "UPDATE users SET email='".$data['email']."', class='".$data['class']."', fullname='".$data['fullname']."', company_id='".$data['company_id']."' WHERE id = ".$data['id'];
                 break;
             case 'company':
-                $sql = "INSERT INTO companies (name, street, postal, city, contact_name, contact_email, phone, website) VALUES ('".$data['name']."', '".$data['street']."', '".$data['postal']."', '".$data['city']."', '".$data['contact_name']."', '".$data['contact_email']."', '".$data['phone']."' '".$data['website']."')";
+                $sql = "INSERT INTO companies (name, street, postal, city, contact_name, contact_email, phone, website) VALUES ('".$data['name']."', '".$data['street']."', '".$data['postal']."', '".$data['city']."', '".$data['contact_name']."', '".$data['contact_email']."', '".$data['phone']."', '".$data['website']."')";
                 break;
             case 'company_update':
                 $sql = "UPDATE companies SET name='".$data['name']."', street='".$data['street']."', postal='".$data['postal']."', city='".$data['city']."', contact_name='".$data['contact_name']."' , contact_email='".$data['contact_email']."', phone='".$data['phone']."', website='".$data['website']."' WHERE id = ".$data['id'];
@@ -76,7 +77,6 @@ class Helper {
                 $sql = "UPDATE experiences SET title='".$data['title']."', body='".$data['body']."', rating='".$data['rating']."', modified=NOW() WHERE id = ".$data['id'];
                 break;
         }
-
         $result = mysqli_query($mysqli, $sql);
 
         if($result){

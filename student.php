@@ -19,7 +19,7 @@ if(isset($_POST['create'])) {
     if($helper->save($mysqli, 'student_update', $_POST)) {
         header('location: students.php?msg=Student succesvol aangepast!');
     } else {
-        header('location: student.php?id='.$_POST['id'] .'error=E-mailadres is al in gebruik!');
+        header('location: student.php?id='.$_POST['id'] .'&error=E-mailadres is al in gebruik!');
     }
 }
 //Wanneer er op de verwijder knop wordt gedrukt zal het een melding sturen en vervolgens verwijderen uit de database.
@@ -27,7 +27,7 @@ if(isset($_POST['delete'])) {
     if($helper->delete($mysqli, 'student', $_POST)) {
         header('location: students.php?msg=De geschreven ervaring is verwijderd');
     } else {
-        header('location: student.php?id='.$_POST['id'] .'error=Er ging iets mis!');
+        header('location: student.php?id='.$_POST['id'] .'&error=Er ging iets mis!');
     }
 }
 
